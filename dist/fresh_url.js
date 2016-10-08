@@ -51,8 +51,8 @@ FreshUrl = (function() {
       },
       ready: function(ready) {
         return FreshUrl.waitsFor(function() {
-          var _ref, _ref1;
-          return (_ref = window.pi) != null ? (_ref1 = _ref.tracker) != null ? _ref1.url : void 0 : void 0;
+          var ref, ref1;
+          return (ref = window.pi) != null ? (ref1 = ref.tracker) != null ? ref1.url : void 0 : void 0;
         }).then(ready);
       }
     },
@@ -68,13 +68,13 @@ FreshUrl = (function() {
     },
     analyticsJs: {
       present: function() {
-        var _ref;
-        return (_ref = window.analytics) != null ? _ref.ready : void 0;
+        var ref;
+        return (ref = window.analytics) != null ? ref.ready : void 0;
       },
       ready: function(ready) {
         return FreshUrl.waitsFor(function() {
-          var _ref;
-          return (_ref = window.analytics) != null ? _ref.ready : void 0;
+          var ref;
+          return (ref = window.analytics) != null ? ref.ready : void 0;
         }).then(function() {
           return analytics.ready(ready);
         });
@@ -85,7 +85,7 @@ FreshUrl = (function() {
   FreshUrl.originalUrl = window.location.href;
 
   function FreshUrl(waitList) {
-    var iframeListener, item, _i, _len;
+    var i, iframeListener, item, len;
     if (waitList == null) {
       waitList = [];
     }
@@ -94,8 +94,8 @@ FreshUrl = (function() {
     }
     this.key = 0;
     this._isReady = {};
-    for (_i = 0, _len = waitList.length; _i < _len; _i++) {
-      item = waitList[_i];
+    for (i = 0, len = waitList.length; i < len; i++) {
+      item = waitList[i];
       if (typeof item === "string" && FreshUrl.libraries[item]) {
         this.wait(FreshUrl.libraries[item].ready, item);
       } else if (typeof item === "function") {
@@ -142,11 +142,11 @@ FreshUrl = (function() {
   };
 
   FreshUrl.prototype.allReady = function() {
-    var key, notReady, value, _ref;
+    var key, notReady, ref, value;
     notReady = [];
-    _ref = this._isReady;
-    for (key in _ref) {
-      value = _ref[key];
+    ref = this._isReady;
+    for (key in ref) {
+      value = ref[key];
       if (!value) {
         notReady.push(key);
       }
@@ -160,7 +160,7 @@ FreshUrl = (function() {
 
   FreshUrl.cleanUrl = function() {
     var cleanSearch;
-    cleanSearch = window.location.search.replace(/utm_[^&]+&?/g, '').replace(/(wkey|wemail)[^&]+&?/g, '').replace(/(_hsenc|_hsmi|hsCtaTracking)[^&]+&?/g, '').replace(/&$/, '').replace(/^\?$/, '');
+    cleanSearch = window.location.search.replace(/utm_[^&]+&?/g, '').replace(/(wkey|wemail)[^&]+&?/g, '').replace(/(_hsenc|_hsmi|hsCtaTracking)[^&]+&?/g, '').replace(/(gclid)[^&]+&?/g, '').replace(/mc_[^&]+&?/g, '').replace(/&$/, '').replace(/^\?$/, '');
     return window.location.pathname + cleanSearch + window.location.hash;
   };
 
@@ -201,11 +201,11 @@ FreshUrl = (function() {
   };
 
   FreshUrl.scriptFrom = function(re) {
-    var script, _i, _len, _ref, _ref1;
-    _ref = document.getElementsByTagName('script');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      script = _ref[_i];
-      if ((_ref1 = script.getAttribute('src')) != null ? _ref1.match(re) : void 0) {
+    var i, len, ref, ref1, script;
+    ref = document.getElementsByTagName('script');
+    for (i = 0, len = ref.length; i < len; i++) {
+      script = ref[i];
+      if ((ref1 = script.getAttribute('src')) != null ? ref1.match(re) : void 0) {
         return true;
       }
     }
@@ -213,11 +213,11 @@ FreshUrl = (function() {
   };
 
   FreshUrl.scriptContains = function(re) {
-    var script, _i, _len, _ref, _ref1;
-    _ref = document.getElementsByTagName('script');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      script = _ref[_i];
-      if ((_ref1 = script.innerHTML) != null ? _ref1.match(re) : void 0) {
+    var i, len, ref, ref1, script;
+    ref = document.getElementsByTagName('script');
+    for (i = 0, len = ref.length; i < len; i++) {
+      script = ref[i];
+      if ((ref1 = script.innerHTML) != null ? ref1.match(re) : void 0) {
         return true;
       }
     }
@@ -225,33 +225,33 @@ FreshUrl = (function() {
   };
 
   FreshUrl.librariesPresent = function() {
-    var library, name, _ref, _results;
-    _ref = FreshUrl.libraries;
-    _results = [];
-    for (name in _ref) {
-      library = _ref[name];
+    var library, name, ref, results;
+    ref = FreshUrl.libraries;
+    results = [];
+    for (name in ref) {
+      library = ref[name];
       if (library.present()) {
-        _results.push(name);
+        results.push(name);
       }
     }
-    return _results;
+    return results;
   };
 
   FreshUrl.wistiaIframes = function() {
-    var iframe, _i, _len, _ref, _results;
-    _ref = document.getElementsByTagName('iframe');
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      iframe = _ref[_i];
+    var i, iframe, len, ref, results;
+    ref = document.getElementsByTagName('iframe');
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      iframe = ref[i];
       if (iframe.src.match(/\/\/.*\.wistia\..*\//)) {
-        _results.push(iframe);
+        results.push(iframe);
       }
     }
-    return _results;
+    return results;
   };
 
   FreshUrl.updateWistiaIframes = function() {
-    var e, iframe, message, _i, _len, _ref, _results;
+    var e, error, i, iframe, len, message, ref, results;
     message = {
       method: 'updateProperties',
       args: [
@@ -265,17 +265,17 @@ FreshUrl = (function() {
         }
       ]
     };
-    _ref = this.wistiaIframes();
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      iframe = _ref[_i];
+    ref = this.wistiaIframes();
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      iframe = ref[i];
       try {
-        _results.push(iframe.contentWindow.postMessage(message, '*'));
-      } catch (_error) {
-        e = _error;
+        results.push(iframe.contentWindow.postMessage(message, '*'));
+      } catch (error) {
+        e = error;
       }
     }
-    return _results;
+    return results;
   };
 
   return FreshUrl;

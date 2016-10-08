@@ -94,6 +94,8 @@ class FreshUrl
         replace(/utm_[^&]+&?/g, '').           # no UTM codes
         replace(/(wkey|wemail)[^&]+&?/g, '').  # no wkey, wemail
         replace(/(_hsenc|_hsmi|hsCtaTracking)[^&]+&?/g, '').  # no hubspot params
+        replace(/(gclid)[^&]+&?/g, '').
+        replace(/mc_[^&]+&?/g, '').
         replace(/&$/, '').
         replace(/^\?$/, '')
 
